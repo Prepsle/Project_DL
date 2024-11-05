@@ -71,6 +71,7 @@
                     <span>Tổng quan</span>
                 </a>
             </li>
+<<<<<<< HEAD
             <li class="nav-item">
                 <a class="nav-link" href="/admin/quan-huyen/">
                     <i class="fas fa-fw fa-map-marked-alt"></i>
@@ -106,6 +107,11 @@
                     <span>Địa điểm</span>
                 </a>
             </li>
+=======
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+>>>>>>> c7befdf (Account)
 
             <!-- Heading -->
             <div class="sidebar-heading">Tài khoản</div>

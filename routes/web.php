@@ -46,6 +46,58 @@ Route::controller(HomeController::class)->group(function () {
 Route::prefix('admin')->controller(AdminController::class)->group(function () {
     Route::get('/bang-dieu-khien', 'dashboard');
 
+<<<<<<< HEAD
+=======
+    # Admin > Quận huyện routes
+    Route::prefix('quan-huyen')->controller(QuanHuyenController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{quanHuyen}', 'edit');
+        Route::post('/edit/{quanHuyen}', 'update');
+        Route::post('/destroy', 'destroy');
+    });
+
+    # Admin > Xã phường routes
+    Route::prefix('xa-phuong')->controller(XaPhuongController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{xaPhuong}', 'edit');
+        Route::post('/edit/{xaPhuong}', 'update');
+        Route::post('/destroy', 'destroy');
+    });
+
+    # Admin > Danh mục du lịch routes
+    Route::prefix('danh-muc-du-lich')->controller(DanhMucDuLichController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{dmDuLich}', 'edit');
+        Route::post('/edit/{dmDuLich}', 'update');
+        Route::post('/destroy', 'destroy');
+    });
+
+    # Admin > Loại địa điểm routes
+    Route::prefix('loai-dia-diem')->controller(LoaiDiaDiemController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{loaiDiaDiem}', 'edit');
+        Route::post('/edit/{loaiDiaDiem}', 'update');
+        Route::post('/destroy', 'destroy');
+    });
+
+    # Admin > Địa điểm routes
+    Route::prefix('dia-diem')->controller(DiaDiemController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{diaDiem}', 'edit');
+        Route::post('/edit/{diaDiem}', 'update');
+        Route::post('/destroy', 'destroy');
+    });
+>>>>>>> c7befdf (Account)
 
     # Admin > Tài khoản routes
     Route::prefix('cong-ty-du-lich')->controller(TaiKhoanController::class)->group(function () {
@@ -56,4 +108,23 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
     Route::prefix('khach-hang')->controller(TaiKhoanController::class)->group(function () {
         Route::get('/', 'indexCustomer');
     });
+<<<<<<< HEAD
+=======
+
+    # Admin > Bài viết routes
+    Route::prefix('bai-viet')->controller(BaiVietController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::get('/add', 'add');
+        Route::post('/add', 'store');
+        Route::get('/edit/{baiViet}', 'edit');
+        Route::post('/edit/{baiViet}', 'update');
+        Route::post('/destroy', 'destroy');
+        Route::get('/view-comment/{baiViet}', 'viewComment');
+    });
+
+    # Admin > Bình luận routes
+    Route::prefix('binh-luan')->controller(BinhLuanController::class)->group(function () {
+        Route::get('/', 'index');
+    });
+>>>>>>> c7befdf (Account)
 });

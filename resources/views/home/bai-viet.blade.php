@@ -2,66 +2,45 @@
 
 @section('content')
 <!-- BANNER SECTION -->
-<section class="float-left w-100 banner-con position-relative main-box pt-0">
+<section class="float-left w-100 banner-con sub-banner-con position-relative main-box" style="padding-top: 60px; padding-bottom: 60px">
     <img alt="vector" class="vector1 img-fluid position-absolute" src="/template/home/images/vector1.png">
+    <img alt="vector" class="vector2 img-fluid position-absolute" src="/template/home/images/vector2.png">
     <div class="container">
-        <!-- Carousel -->
-        <div class="owl-carousel">
-            <div class="item">
-                <div class="row align-items-center">
-                    <div class="col-lg-6  order-xl-0 order-lg-0 order-1">
-                        <div class="banner-inner-content">
-<<<<<<< HEAD
-                            <h4>Khám phá Thế Giới! <i class="fa-solid fa-earth-americas"></i></h4>
-                            <!-- <h4>Thực hiện chuyến đi tốt nhất của bạn!</h4> -->
-                            <p class="font-size-20">Bắt tay vào cuộc hành trình khám phá những kỳ quan tuyệt đẹp.</p>
-=======
-                            <h4>Khám phá Trà Vinh! <i class="fa-solid fa-earth-americas"></i></h4>
-                            <!-- <h4>Thực hiện chuyến đi tốt nhất của bạn!</h4> -->
-                            <p class="font-size-20">Bắt tay vào cuộc hành trình khám phá những kỳ quan của mảnh đất Trà Vinh.</p>
->>>>>>> c7befdf (Account)
-                            <!-- <div class="green-btn d-inline-block">
-                                <a href="#" class="d-inline-block">Khám phá ngay</a>
-                            </div> -->
-                            <!-- banner inner content -->
-                        </div>
-                        <!--  -->
-                    </div>
-                    <div class="col-lg-6">
-                        <figure class="banner-image-con">
-                            <img src="/template/home/images/home-banner-image.png" alt="image" class="">
-                        </figure>
-                        <!--  -->
-                    </div>
-                    <!-- row -->
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="sub-banner-inner-con">
+                    <h1>{{ $title }}</h1>
+                    <p class="font-size-20">Nơi chia sẻ kinh nghiệm về những chiến đi, và các ưu đãi mới nhất</p>
+                    
                 </div>
-                <!-- item -->
+                <!-- col-lg-6 -->
             </div>
+            <!-- row -->
         </div>
         <!-- container -->
     </div>
     <!-- banner con -->
 </section>
 
-<section class="blog-posts blogpage-section three-column-con w-100 float-left" style="padding-top: 60px; padding-bottom: 60px">
+<!-- MAIN SECTION -->
+<section class="blog-posts blogpage-section three-column-con w-100 float-left">
     <div class="container">
         <div class="row wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
             <div id="blog" class="col-xl-12">
                 <!-- threecolumn-blog  -->
                 <div class="row">
                     <div class="col-md-3">
-                        <ul class="list-group pt-4 mt-5">
+                        <ul class="list-group">
                             <li class="list-group-item">QUẬN / HUYỆN</li>
                             @foreach($quanHuyenList as $item)
-                            <li class="list-group-item"><a href="/bai-viet?quan_huyen={{ $item->ma_quan_huyen }}">{{ $item->ten_quan_huyen }}</a>
-                            </li>
+                            <li class="list-group-item {{ isset($_REQUEST['quan_huyen']) && $_REQUEST['quan_huyen'] == $item->ma_quan_huyen ? "active" : "" }}"><a href="?quan_huyen={{ $item->ma_quan_huyen }}">{{ $item->ten_quan_huyen }}</a></li>
                             @endforeach
                         </ul>
                     </div>
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-12 mb-5 d-flex justify-content-end">
-                                <form action="/bai-viet" style="width: 50%" method="GET" class="input-group">
+                                <form style="width: 50%" method="GET" class="input-group">
                                     <input type="text" class="form-control" name="query">
                                     <button class="btn btn-outline-primary">Tìm</button>
                                 </form>
@@ -101,10 +80,6 @@
                                 </div>
                             </div>
                             @endforeach
-                        </div>
-
-                        <div class="row d-flex align-items-center justify-content-between">
-                            {!! $baiVietList->links() !!}
                         </div>
                     </div>
                 </div>
