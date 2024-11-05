@@ -12,6 +12,7 @@
                     <div class="col-lg-6  order-xl-0 order-lg-0 order-1">
                         <div class="banner-inner-content">
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <h4>Khám phá Thế Giới! <i class="fa-solid fa-earth-americas"></i></h4>
                             <!-- <h4>Thực hiện chuyến đi tốt nhất của bạn!</h4> -->
                             <p class="font-size-20">Bắt tay vào cuộc hành trình khám phá những kỳ quan tuyệt đẹp.</p>
@@ -20,6 +21,11 @@
                             <!-- <h4>Thực hiện chuyến đi tốt nhất của bạn!</h4> -->
                             <p class="font-size-20">Bắt tay vào cuộc hành trình khám phá những kỳ quan của mảnh đất Trà Vinh.</p>
 >>>>>>> c7befdf (Account)
+=======
+                            <h4>Khám phá Trà Vinh! <i class="fa-solid fa-earth-americas"></i></h4>
+                            <!-- <h4>Thực hiện chuyến đi tốt nhất của bạn!</h4> -->
+                            <p class="font-size-20">Bắt tay vào cuộc hành trình khám phá những kỳ quan của mảnh đất Trà Vinh.</p>
+>>>>>>> c3206fd (post)
                             <!-- <div class="green-btn d-inline-block">
                                 <a href="#" class="d-inline-block">Khám phá ngay</a>
                             </div> -->

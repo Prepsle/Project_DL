@@ -72,6 +72,7 @@
                 </a>
             </li>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <li class="nav-item">
                 <a class="nav-link" href="/admin/quan-huyen/">
                     <i class="fas fa-fw fa-map-marked-alt"></i>
@@ -128,6 +129,8 @@
                     <span>Công ty du lịch</span>
                 </a>
             </li>
+=======
+>>>>>>> c3206fd (post)
             @endif
             @if(Auth::user()->ma_loai_tai_khoan == '1' || Auth::user()->ma_loai_tai_khoan == '2')
             <!-- Heading -->
