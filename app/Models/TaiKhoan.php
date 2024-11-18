@@ -35,4 +35,10 @@ class TaiKhoan extends Authenticatable
     {
         return $this->hasMany('App\Models\BaiViet', 'nguoi_dang_bai_viet', 'ma_tai_khoan');
     }
+
+
+    public function gioHangs()
+    {
+        return $this->hasMany(gio_hangs::class);
+    }
 }

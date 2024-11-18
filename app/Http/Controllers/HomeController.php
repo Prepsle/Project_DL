@@ -8,6 +8,7 @@ use App\Models\BaiViet;
 use App\Models\BinhLuan;
 use App\Models\DanhMucDuLich;
 use App\Models\DiaDiem;
+use App\Models\gio_hangs;
 use App\Models\LoaiDiaDiem;
 use App\Models\QuanHuyen;
 use App\Models\TaiKhoan;
@@ -470,4 +471,125 @@ class HomeController extends Controller
         }
         return redirect('/');
     }
+
+    public function shoppingcart(Request $request){
+        $baiVietList = BaiViet::orderBy('luot_xem_bai_viet', 'desc')->paginate(6);
+        $diaDiemList = DiaDiem::orderBy('updated_at', 'desc')->get();
+        $loaiDiaDiemList = LoaiDiaDiem::orderBy('updated_at', 'desc')->get();
+        $dmDuLichList = DanhMucDuLich::orderBy('updated_at', 'desc')->get();
+        $quanHuyenList = QuanHuyen::get();
+        
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as &$item) {
+            // Lấy thông tin bài viết từ bảng BaiViet bằng ma_bai_viet
+            $product = BaiViet::find($item['ma_bai_viet']);
+            if ($product) {
+                $item['product_name'] = $product->ten_bai_viet;  // Lấy tên sản phẩm
+                $item['image'] = $product->hinh_anh_bai_viet;  // Lấy ảnh sản phẩm nếu cần
+                $item['price'] = $product->gia_thanh;  // Cập nhật giá nếu cần
+            }
+        }
+
+        $productCount = count($cart);
+
+        return view('shopping.shoppingcart',compact('cart','productCount'),[
+            'title'           => 'Giỏ hàng',
+            'diaDiemList'     => $diaDiemList,
+            'loaiDiaDiemList' => $loaiDiaDiemList,
+            'dmDuLichList'    => $dmDuLichList,
+            'quanHuyenList'   => $quanHuyenList,
+        ]);
+    }
+
+    // Thêm sản phẩm vào giỏ hàng
+    public function add(Request $request)
+    {
+        $userId = auth()->user()->ma_tai_khoan ?? null; // Lấy ID người dùng nếu đã đăng nhập
+
+        // Lấy thông tin sản phẩm từ request
+        $product = [
+            'ma_tai_khoan' => $userId,
+            'ma_bai_viet' => $request->ma_bai_viet,
+            'quantity' => $request->quantity ?? 1,
+            'price' => $request->price,
+        ];
+        // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
+        $existingItem = gio_hangs::where('ma_tai_khoan', $userId)
+                                ->where('ma_bai_viet', $product['ma_bai_viet'])
+                                ->first();
+
+        if ($existingItem) {
+            $existingItem->quantity += $product['quantity'];
+            $existingItem->save();
+        } else {
+            gio_hangs::create($product);
+        }
+
+        $cart = gio_hangs::where('ma_tai_khoan', $userId)->get();
+
+        // Lưu giỏ hàng vào session
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
+    }
+
+    // Cập nhật số lượng sản phẩm trong giỏ hàng
+    public function update(Request $request)
+    {
+        // Xác thực input
+        $request->validate([
+            'id' => 'required|integer|exists:gio_hangs,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Kiểm tra sản phẩm có tồn tại không
+        $cartItem = gio_hangs::findOrFail($request->id);
+        if (!$cartItem) {
+            return response()->json(['success' => false, 'message' => 'Sản phẩm không tồn tại trong giỏ hàng.'], 404);
+        }
+
+        // Cập nhật số lượng sản phẩm
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+
+        // Lấy tổng số lượng và tổng giá của giỏ hàng
+        $cart = gio_hangs::all();
+        $totalQuantity = $cart->sum('quantity');
+        $newPrice = (float)$cartItem->price * $cartItem->quantity;
+
+        // Trả về phản hồi JSON
+        return response()->json([
+            'success' => true,
+            'totalQuantity' => $totalQuantity,
+            'totalPrice' => number_format($newPrice, 0, ',', '.'),
+        ]);
+    }
+
+    // Xóa sản phẩm khỏi giỏ hàng
+    public function remove($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+            return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng.');
+        }
+
+        return redirect()->route('cart.index')->with('error', 'Sản phẩm không tồn tại trong giỏ hàng.');
+    }
+
+    // Xóa toàn bộ giỏ hàng
+    public function clear()
+    {
+        // Xóa toàn bộ giỏ hàng của người dùng trong cơ sở dữ liệu
+        gio_hangs::truncate();
+
+        // Xóa giỏ hàng khỏi session (nếu đang sử dụng session)
+        session()->forget('cart');
+
+        return redirect()->route('cart.index')->with('success', 'Giỏ hàng đã được xóa.');
+    }
+
 }

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dia_diems', function (Blueprint $table) {
-            $table->id('ma_dia_diem');
-            $table->string('ten_dia_diem');
-            $table->string('dia_chi');
-            $table->mediumText('mo_ta_dia_diem');
-            $table->string('hinh_anh_dia_diem');
-            $table->unsignedBigInteger('ma_loai_dia_diem');
-            $table->foreign('ma_loai_dia_diem')->references('ma_loai_dia_diem')->on('loai_dia_diems')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('ma_xa_phuong');
-            $table->foreign('ma_xa_phuong')->references('ma_xa_phuong')->on('xa_phuongs')->onUpdate('cascade')->onDelete('cascade');
+        Schema::create('thiet_bis', function (Blueprint $table) {
+            $table->id('ma_thiet_bi');
+            $table->string('ten_thiet_bi');
+            $table->string('thiet_bi');
+            $table->mediumText('mo_ta_thiet_bi');
+            $table->string('hinh_anh_thiet_bi');
+            $table->unsignedBigInteger('ma_loai_thiet_bi');
+            $table->foreign('ma_loai_thiet_bi')->references('ma_loai_thiet_bi')->on('loai_thiet_bis')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('ma_dia_diem');
+            $table->foreign('ma_dia_diem')->references('ma_dia_diem')->on('dia_diems')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dia_diems');
+        Schema::dropIfExists('thiet_bis');
     }
 };

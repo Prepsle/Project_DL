@@ -20,6 +20,7 @@ class BaiViet extends Model
         'ngay_dang_bai_viet',
         'luot_xem_bai_viet',
         'nguoi_dang_bai_viet',
+        'gia_thanh',
     ];
 
     public function nguoiDangBaiViet()
@@ -39,5 +40,11 @@ class BaiViet extends Model
     public function diaDiemList()
     {
         return $this->belongsToMany('App\Models\DiaDiem', 'dia_diem_bai_viets', 'ma_bai_viet', 'ma_dia_diem');
+    }
+
+
+    public function gioHangs()
+    {
+        return $this->hasMany(gio_hangs::class);
     }
 }

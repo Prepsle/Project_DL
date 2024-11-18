@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <link rel="icon" sizes="96x96" href="/template/home/images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +24,8 @@
     <link rel="stylesheet" href="/template/home/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/template/home/css/owl.theme.default.min.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         img {
             max-width: 100%;
@@ -61,6 +64,16 @@
         .list-group-item.active a {
             color: white !important;
         }
+
+        .btn-primary {
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+        }
+
     </style>
     <script>
         window.fbAsyncInit = function() {
@@ -162,8 +175,16 @@
                             </li>
                         </ul>
                         <div class="header-contact">
-                            <ul class="list-unstyled mb-0">
+                            <ul class="list-unstyled d-flex align-items-center gap-2 mb-0">
                                 @if(Auth::check())
+                                <li class="me-2">
+                                    <a href="/gio-hang" class="btn btn-primary position-relative">
+                                        <i class="bi bi-cart"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ $productCount ?? 0 }}
+                                        </span> 
+                                    </a>
+                                </li>
                                 <li>
                                     <div class="nav-item dropdown">
                                         <a class="nav-link p-0 dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->ten_tai_khoan }}</a>
@@ -182,6 +203,7 @@
 
                                             <a class="dropdown-item" href="/auth/logout">Đăng xuất</a>
                                         </div>
+
                                     </div>
                                 </li>
                                 @else
