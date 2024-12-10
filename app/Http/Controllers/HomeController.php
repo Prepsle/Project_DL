@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller
@@ -490,7 +491,6 @@ class HomeController extends Controller
                 $item['price'] = $product->gia_thanh;  // Cập nhật giá nếu cần
             }
         }
-
         $productCount = count($cart);
 
         return view('shopping.shoppingcart',compact('cart','productCount'),[
@@ -534,6 +534,7 @@ class HomeController extends Controller
         return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
     }
 
+
     // Cập nhật số lượng sản phẩm trong giỏ hàng
     public function update(Request $request)
     {
@@ -552,6 +553,13 @@ class HomeController extends Controller
         // Cập nhật số lượng sản phẩm
         $cartItem->quantity = $request->quantity;
         $cartItem->save();
+
+        // Lấy lại toàn bộ giỏ hàng từ DB
+        $userId = auth()->user()->ma_tai_khoan ?? null; // Lấy ID người dùng
+        $cart = gio_hangs::where('ma_tai_khoan', $userId)->get();
+
+        // Cập nhật session giỏ hàng
+        session()->put('cart', $cart);
 
         // Lấy tổng số lượng và tổng giá của giỏ hàng
         $cart = gio_hangs::all();
@@ -583,13 +591,13 @@ class HomeController extends Controller
     // Xóa toàn bộ giỏ hàng
     public function clear()
     {
-        // Xóa toàn bộ giỏ hàng của người dùng trong cơ sở dữ liệu
-        gio_hangs::truncate();
+        DB::table('order_details')->delete();
+        // Xóa toàn bộ giỏ hàng của người dùng trong cơ sở dữ liệu (dùng delete thay vì truncate)
+        gio_hangs::query()->delete();  // Cách này sẽ xóa tất cả các bản ghi trong bảng gio_hangs.
 
         // Xóa giỏ hàng khỏi session (nếu đang sử dụng session)
         session()->forget('cart');
 
         return redirect()->route('cart.index')->with('success', 'Giỏ hàng đã được xóa.');
     }
-
 }

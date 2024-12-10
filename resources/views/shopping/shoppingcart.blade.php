@@ -98,7 +98,7 @@
                             $total = 0;
                         @endphp
                         @foreach($cart as $item)
-                        <div class="cart-item">
+                        <div class="cart-item" data-price="{{ $item->price }}">
                             <img src="{{ $item->image }}" alt="{{ $item->product_name }}">
                             <div class="item-info">
                                 <h5>{{ $item->product_name }}</h5>
@@ -112,14 +112,15 @@
                                     <button type="button" class="btn-plus">+</button>
                                 </div>
                             </form>
-                            <div id="total-{{ $item->id }}" class="item-total">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} vnđ</div>                           
+                            <div id="total-{{ $item->id }}" class="item-total">{{ number_format($item->price * $item->quantity, 0, ',', '.') }} vnđ</div>
                             <form action="#" method="POST" style="display:inline;">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $item->ma_bai_viet }}">
                                 <button type="submit" class="item-remove"><i class="fas fa-times"></i></button>
                             </form>
                         </div>
-                    @endforeach        
+                        
+                        @endforeach        
                     </div>
                         <button class="btn-clear"><a href="{{ route('cart.clear') }}">Xóa Tất Cả</a></button>
                     </div>
@@ -137,7 +138,7 @@
                             <span id="total-price">{{ number_format($total, 0, ',', '.') }} vnđ</span>
                         </div>
                         </div>
-                        <button class="btn-checkout">Đặt sản phẩm</button>
+                        <button type="submit" class="btn btn-primary"><a href="{{route('checkout')}}"  style="color: black; text-decoration: none;">Đặt hàng</a></button>
                     </div>
                 </div>
             </div>
@@ -157,10 +158,11 @@
                 if (quantity < 1) quantity = 1; // Đảm bảo quantity không nhỏ hơn 1
                 input.value = quantity; // Cập nhật quantity trong DOM
 
-                // Lấy id từ phần tử input hidden trong mỗi item (id của sản phẩm)
-                const itemId = input.closest('.cart-item').querySelector('input[name="id"]').value;
-                const price = parseFloat(input.closest('.cart-item').querySelector('.item-info').dataset.price); // Lấy giá sản phẩm từ data-price attribute
-                
+                // Lấy id và price từ thuộc tính data-price trong phần tử cart-item
+                const cartItem = input.closest('.cart-item');
+                const itemId = cartItem.querySelector('input[name="id"]').value;
+                const price = parseFloat(cartItem.dataset.price); // Lấy giá từ data-price
+
                 // Cập nhật giá trực tiếp trên giao diện
                 updateItemTotal(itemId, price, quantity);
 
@@ -209,12 +211,32 @@
             function updateItemTotal(itemId, price, quantity) {
                 const totalElement = document.getElementById(`total-${itemId}`);
                 const totalPrice = price * quantity;
-                totalElement.textContent = `${totalPrice.toFixed(0)} vnđ`; // Cập nhật giá mới
+
+                // Định dạng giá theo kiểu decimal với dấu phân cách thập phân và phân cách hàng nghìn
+                const formattedPrice = new Intl.NumberFormat('vi-VN', {
+                    style: 'decimal',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                }).format(totalPrice);
+
+                // Cập nhật giá mới với định dạng
+                totalElement.textContent = `${formattedPrice} vnđ`;
             }
 
             // Cập nhật tổng số lượng
-            function updateTotalQuantity(totalQuantity) {
-                document.getElementById('total-quantity').textContent = totalQuantity;
+            function updateItemTotal(itemId, price, quantity) {
+                const totalElement = document.getElementById(`total-${itemId}`);
+                const totalPrice = price * quantity;
+
+                // Định dạng giá theo kiểu decimal với dấu phân cách thập phân và phân cách hàng nghìn
+                const formattedPrice = new Intl.NumberFormat('vi-VN', {
+                    style: 'decimal',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                }).format(totalPrice);
+
+                // Cập nhật giá mới với định dạng
+                totalElement.textContent = `${formattedPrice} vnđ`;
             }
 
             // Cập nhật tổng giá

@@ -48,4 +48,9 @@ class BaiViet extends Model
     {
         return $this->hasMany(gio_hangs::class);
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

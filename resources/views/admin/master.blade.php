@@ -139,6 +139,12 @@
                     <span>Bình luận</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('checkout.admin')}}">
+                    <i class="fas fa-fw fa-comment"></i>
+                    <span>Đơn hàng</span>
+                </a>
+            </li>
             @endif
 
             <!-- Divider -->

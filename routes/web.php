@@ -135,3 +135,9 @@ Route::prefix('admin')->controller(AdminController::class)->group(function () {
 Route::get('/payment', [BlockchainController::class, 'index'])->name('payment.index');
 Route::post('/wallet-info', [BlockchainController::class, 'getWalletInfo'])->name('payment.walletInfo');
 Route::post('/send-transaction', [BlockchainController::class, 'sendTransaction'])->name('payment.sendTransaction');
+
+Route::group(['prefix'=>'Shopping'], function(){
+    Route::get('/', [ShoppingController::class, 'index'])->name('checkout');
+    Route::post('/checkout/submit', [ShoppingController::class, 'submit_form'])->name('checkout.order');
+    Route::get('/admin/checkout', [ShoppingController::class, 'adminShow'])->name('checkout.admin');
+});

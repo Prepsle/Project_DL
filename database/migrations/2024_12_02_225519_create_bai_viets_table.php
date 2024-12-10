@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('luot_xem_bai_viet')->default(0);
             $table->unsignedBigInteger('nguoi_dang_bai_viet')->index('bai_viets_nguoi_dang_bai_viet_foreign');
             $table->decimal('gia_thanh', 15, 0)->nullable();
-            $table->text('map_link')->nullable();
             $table->timestamps();
+            $table->text('map_link')->nullable();
         });
     }
 

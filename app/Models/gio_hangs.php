@@ -27,4 +27,9 @@ class gio_hangs extends Model
     {
         return $this->belongsTo(BaiViet::class);
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }
